@@ -62,11 +62,23 @@
 
 
   <!-- p5.js (using CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+ <script src="https://d3js.org/d3.v7.min.js"></script>
   <!-- helpers (data/loading, scroller, visual controller) -->
   <script src="js/helpers/data_loader.js"></script>
   <script src="js/helpers/scroller.js"></script>
   <script src="js/helpers/visual_controller.js"></script>
+
+  <script>
+  window.ScrollDemoConfig = {
+    dataUrl: "data/happiness_clean.csv",   // <-- your cleaned file
+    containerSelector: "#graphic",
+    stepSelector: ".step",
+    visSelector: "#vis",
+    showAt: 0,                             // show visualization immediately
+    trigger: "center"
+  };
+</script>
 
   <!-- orchestrator (wires scroller -> sketch) -->
   <script src="js/helpers/sections.js"></script>
@@ -75,11 +87,12 @@
   <script src="js/sketches/sketch_manager.js"></script>
 
   <!-- sketches (example renderer) -->
-  <script src="js/sketches/examples/sketch_grid.js"></script>
+  <!-- <script src="js/sketches/examples/sketch_grid.js"></script> -->
 
   <!-- sketches (renderers): UPDATE HERE FOR PROJECT -->
   <script src="js/sketches/viz/viz_title.js"></script>
   <script src="js/sketches/viz/viz_scatter.js"></script>
+  <script src="js/sketches/viz/viz_life_scatter.js"></script>
   <script src="js/sketches/viz/viz_bar.js"></script>
   <script src="js/sketches/sketch_renderer.js"></script>
 

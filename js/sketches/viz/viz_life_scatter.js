@@ -1,8 +1,8 @@
-// viz_scatter.js
-// GDP per Capita vs Happiness scatterplot using manager.data (from happiness_clean.csv)
+// viz_life_scatter.js
+// Life Expectancy vs Happiness scatterplot using manager.data (from happiness_clean.csv)
 
 (function () {
-  window.VizScatter = {
+  window.VizLifeScatter = {
     draw: function (p, manager, ai, progress) {
       const data = manager.data || [];
       const w = manager.width || 600;
@@ -10,7 +10,6 @@
       const offsetX = manager.offsetX || 80;
       const offsetY = manager.offsetY || 0;
 
-      // Padding inside the plot area
       const padL = 10;
       const padR = 10;
       const padT = 45;
@@ -23,7 +22,6 @@
 
       p.noStroke();
 
-      // If data isn't loaded yet, show a message
       if (!data.length) {
         p.fill(0);
         p.textSize(14);
@@ -32,13 +30,12 @@
         return;
       }
 
-      // Extents
-      let minGDP = Infinity, maxGDP = -Infinity;
+      let minLE = Infinity, maxLE = -Infinity;
       let minHappy = Infinity, maxHappy = -Infinity;
 
       for (const d of data) {
-        if (d.gdp < minGDP) minGDP = d.gdp;
-        if (d.gdp > maxGDP) maxGDP = d.gdp;
+        if (d.life_expectancy < minLE) minLE = d.life_expectancy;
+        if (d.life_expectancy > maxLE) maxLE = d.life_expectancy;
         if (d.happiness < minHappy) minHappy = d.happiness;
         if (d.happiness > maxHappy) maxHappy = d.happiness;
       }
@@ -48,7 +45,7 @@
       p.noStroke();
       p.textSize(18);
       p.textAlign(p.CENTER, p.TOP);
-      p.text("GDP per Capita vs Happiness Score", (x0 + x1) / 2, offsetY + 10);
+      p.text("Life Expectancy vs Happiness", (x0 + x1) / 2, offsetY + 10);
 
       // ---- Axes ----
       p.stroke(0);
@@ -60,11 +57,9 @@
       p.fill(0);
       p.textSize(12);
 
-      // x label
       p.textAlign(p.CENTER, p.TOP);
-      p.text("GDP per Capita", (x0 + x1) / 2, y1 + 18);
+      p.text("Life Expectancy", (x0 + x1) / 2, y1 + 18);
 
-      // y label (rotated)
       p.push();
       p.translate(x0 - 45, (y0 + y1) / 2);
       p.rotate(-p.HALF_PI);
@@ -72,7 +67,6 @@
       p.text("Happiness Score", 0, 0);
       p.pop();
 
-      // ---- Region colors (simple palette) ----
       function regionColor(region) {
         const r = (region || "").toLowerCase();
         if (r.includes("europe")) return p.color(66, 133, 244, 190);
@@ -83,11 +77,10 @@
         return p.color(140, 140, 140, 190);
       }
 
-      // ---- Points + hover ----
       let hovered = null;
 
       for (const d of data) {
-        const x = p.map(d.gdp, minGDP, maxGDP, x0, x1);
+        const x = p.map(d.life_expectancy, minLE, maxLE, x0, x1);
         const y = p.map(d.happiness, minHappy, maxHappy, y1, y0);
 
         const dist = p.dist(p.mouseX, p.mouseY, x, y);
@@ -100,16 +93,14 @@
         if (isHover) hovered = { d, x, y };
       }
 
-      // ---- Hover tooltip ----
       if (hovered) {
         const d = hovered.d;
-        const boxW = 240;
-        const boxH = 55;
+        const boxW = 260;
+        const boxH = 60;
 
         let boxX = hovered.x + 12;
         let boxY = hovered.y - (boxH + 12);
 
-        // keep tooltip on canvas
         if (boxX + boxW > x1) boxX = hovered.x - boxW - 12;
         if (boxY < y0) boxY = hovered.y + 12;
 
@@ -121,7 +112,7 @@
         p.textSize(12);
         p.textAlign(p.LEFT, p.TOP);
         p.text(
-          `${d.country}\nGDP: ${Number(d.gdp).toFixed(2)}\nHappiness: ${Number(d.happiness).toFixed(2)}`,
+          `${d.country}\nLife Exp: ${Number(d.life_expectancy).toFixed(2)}\nHappiness: ${Number(d.happiness).toFixed(2)}`,
           boxX + 10,
           boxY + 8
         );
