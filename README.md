@@ -78,3 +78,46 @@ Note: `Renderer.setData` may return a Promise when it performs an async load (e.
 	- `p5` — the raw p5 instance (mostly for advanced debugging).
 	- `data` — reference to processed data on the manager. Note that `data` may be populated asynchronously after `api.ready` resolves.
 	- `ready` — a Promise that resolves to the API object once data/layout are available. Consumers that need immediate access to processed data should await `api.ready` before reading `api.data`.
+
+---
+
+## Project Dataset: World Happiness Analysis
+
+This project uses the World Happiness dataset to explore relationships between:
+- GDP per capita
+- Happiness score
+- Life expectancy
+- Freedom
+- Social support
+
+### Data Processing
+
+**Raw Data File:**  
+`data/happiness_data.csv`
+
+**Cleaning Script:**  
+`data/clean_data.py`
+
+**Processing Steps:**
+- Selected relevant variables:
+  - Country name
+  - Regional indicator
+  - Ladder score (happiness)
+  - Logged GDP per capita
+  - Healthy life expectancy
+  - Freedom to make life choices
+  - Social support
+- Renamed columns for simplified p5.js usage:
+  - `country`
+  - `region`
+  - `happiness`
+  - `gdp`
+  - `life_expectancy`
+  - `freedom`
+  - `social_support`
+- Dropped rows containing missing values
+- Exported cleaned dataset as:
+
+`data/happiness_clean.csv`
+
+This cleaned dataset is ready for direct loading into p5.js visualizations.
