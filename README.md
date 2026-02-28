@@ -1,6 +1,6 @@
 ## Scroll-demo (p5.js scrollytelling template)
 
-A minimal scaffold for building scroll-driven p5.js visuals. Keep things simple: HTML sections in `index.html` drive the visual state exposed by `js/helpers/sections.js`.
+A minimal scaffold for building scroll-driven p5.js visuals. Keep things simple: HTML sections in `index.html` drive the visual state exposed by `js/helpers/sections.js`. 
 
 Top-level folders (high level)
 - `index.html` — page with sections that drive the scroll state.
