@@ -52,13 +52,13 @@
     return;
   }
 
-  // 6: World Map
+  // 6: World Map (when you build it)
   if (ai === 6) {
-    // window.VizMap.draw(p, manager, ai, progress);
+    window.VizMap.draw(p, manager, ai, progress);
     return;
   }
 
-  // 7: Conclusion
+  // 7: Conclusion (optional visual)
   if (ai === 7) {
     window.VizBar.draw(p, manager, ai, progress);
     return;
