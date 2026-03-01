@@ -27,34 +27,42 @@
     },
 
     draw: function (p, manager, ai, progress) {
-      // Title / intro sections
-      if (ai === 0 || ai === 1) {
-        window.VizTitle.draw(p, manager, ai, progress);
-        return;
-      }
 
-      // GDP vs Happiness (keep your current scatter)
-      // Show for sections 4 and 5
-      if (ai === 4 || ai === 5) {
-        window.VizScatter.draw(p, manager, ai, progress);
-        return;
-      }
+  // 0–1: Intro / Title
+  if (ai === 0 || ai === 1) {
+    window.VizTitle.draw(p, manager, ai, progress);
+    return;
+  }
 
-      // Life Expectancy vs Happiness (your second scatter)
-      // Show for section 6
-      if (ai === 6) {
-        window.VizLifeScatter.draw(p, manager, ai, progress);
-        return;
-      }
+  // 2: GDP vs Happiness
+  if (ai === 2) {
+    window.VizScatter.draw(p, manager, ai, progress);
+    return;
+  }
 
-      // Optional bar chart on the last section
-      if (ai === 7) {
-        window.VizBar.draw(p, manager, ai, progress);
-        return;
-      }
+  // 4: Freedom vs Happiness
+  if (ai === 4) {
+    window.VizFreedom.draw(p, manager, ai, progress);
+    return;
+  }
 
-      // Default fallback: show nothing (or you can keep title)
-      // window.VizTitle.draw(p, manager, ai, progress);
-    }
+  // 5: Life Expectancy vs Happiness
+  if (ai === 5) {
+    window.VizLifeScatter.draw(p, manager, ai, progress);
+    return;
+  }
+
+  // 6: World Map
+  if (ai === 6) {
+    // window.VizMap.draw(p, manager, ai, progress);
+    return;
+  }
+
+  // 7: Conclusion
+  if (ai === 7) {
+    window.VizBar.draw(p, manager, ai, progress);
+    return;
+  }
+}
   };
 })();
