@@ -1,0 +1,13 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "name": "United States" }, "geometry": { "type": "MultiPolygon", "coordinates": [[[[ -155, 19 ], [ -155, 22 ], [ -159, 22 ], [ -159, 19 ], [ -155, 19 ]]], [[[ -168, 53 ], [ -173, 60 ], [ -162, 71 ], [ -141, 70 ], [ -141, 60 ], [ -168, 53 ]]], [[[ -67, 45 ], [ -73, 40 ], [ -80, 25 ], [ -97, 25 ], [ -117, 32 ], [ -124, 48 ], [ -94, 49 ], [ -67, 45 ]]]] } },
+      { "type": "Feature", "properties": { "name": "Canada" }, "geometry": { "type": "Polygon", "coordinates": [[ [ -141, 70 ], [ -141, 60 ], [ -124, 48 ], [ -67, 45 ], [ -53, 47 ], [ -62, 74 ], [ -141, 70 ] ]] } },
+      { "type": "Feature", "properties": { "name": "Finland" }, "geometry": { "type": "Polygon", "coordinates": [[ [ 20, 60 ], [ 28, 60 ], [ 31, 70 ], [ 20, 70 ], [ 20, 60 ] ]] } },
+      { "type": "Feature", "properties": { "name": "Norway" }, "geometry": { "type": "Polygon", "coordinates": [[ [ 5, 58 ], [ 12, 58 ], [ 20, 71 ], [ 5, 71 ], [ 5, 58 ] ]] } },
+      { "type": "Feature", "properties": { "name": "China" }, "geometry": { "type": "Polygon", "coordinates": [[ [ 75, 40 ], [ 120, 40 ], [ 120, 20 ], [ 100, 20 ], [ 75, 40 ] ]] } },
+      { "type": "Feature", "properties": { "name": "India" }, "geometry": { "type": "Polygon", "coordinates": [[ [ 70, 30 ], [ 90, 30 ], [ 80, 10 ], [ 70, 30 ] ]] } },
+      { "type": "Feature", "properties": { "name": "Brazil" }, "geometry": { "type": "Polygon", "coordinates": [[ [ -60, 5 ], [ -35, -5 ], [ -50, -30 ], [ -70, -10 ], [ -60, 5 ] ]] } },
+      { "type": "Feature", "properties": { "name": "Australia" }, "geometry": { "type": "Polygon", "coordinates": [[ [ 113, -15 ], [ 153, -15 ], [ 140, -35 ], [ 115, -35 ], [ 113, -15 ] ]] } }
+    ]
+  }
