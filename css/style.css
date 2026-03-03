@@ -1,94 +1,201 @@
 
-.container {
-  width: 890px;
+/* =========================
+   Overall page
+========================= */
+:root{
+  --bg: #f6f4ef;            /* warm off-white */
+  --ink: #262626;
+  --muted: #6f6f73;
+  --card: #ffffff;
+  --line: rgba(0,0,0,0.08);
+  --shadow: 0 12px 30px rgba(0,0,0,0.08);
+  --radius: 16px;
 }
 
-#graphic {
-  padding-top: 60px;
+body{
+  margin: 0;
+  background: var(--bg);
 }
 
+/* optional subtle texture (very light) */
+body:before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(0,0,0,0.03), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,0,0,0.025), transparent 45%),
+    radial-gradient(circle at 40% 90%, rgba(0,0,0,0.02), transparent 45%);
+  z-index: 0;
+}
 
-#sections {
+/* =========================
+   Layout
+========================= */
+.container{
+  width: 980px;          /* a little wider than before */
+  max-width: 95vw;
+  position: relative;
+  z-index: 1;            /* above the background texture */
+}
+
+#graphic{
+  padding-top: 70px;
+}
+
+/* Left text column */
+#sections{
   position: relative;
   display: inline-block;
-  width: 250px;
+  width: 290px;          /* a bit wider so text breathes */
   top: 0px;
   z-index: 90;
-  padding-bottom: 200px;
+  padding-bottom: 240px;
 }
 
-.step {
-  margin-bottom: 200px;
-  font-family: "TiemposTextWeb-Regular","Georgia";
+/* =========================
+   Step cards
+========================= */
+.step{
+  margin: 0 0 220px 0;
+  font-family: "TiemposTextWeb-Regular","Georgia", serif;
   font-size: 16px;
-  line-height: 23px;
-  color: #767678;
+  line-height: 24px;
+  color: var(--muted);
+
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+
+  padding: 16px 16px 18px 16px;
+  position: relative;
 }
 
-#sections .title {
-  font-family: Arial,Helvetica,"san-serif";
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 2px;
-  color: #262626;
-  line-height: 1.2em;
+/* the colored accent bar on the left */
+.step::before{
+  content:"";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 6px;
+  border-radius: 6px;
+  background: var(--accent, #cfcfd3);
 }
 
-#extra-space {
-  height: 300px;
+/* titles inside each step */
+#sections .title{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, "san-serif";
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+  color: var(--ink);
+  line-height: 1.25em;
 }
 
-#vis {
+/* a little divider line under each title */
+#sections .title::after{
+  content:"";
+  display:block;
+  margin-top: 8px;
+  width: 56px;
+  height: 2px;
+  background: rgba(0,0,0,0.08);
+  border-radius: 2px;
+}
+
+/* =========================
+   Color-code each section by index
+   (these match your steps 0–7)
+========================= */
+.step[data-active-index="0"]{ --accent:#1f6feb; } /* intro */
+.step[data-active-index="1"]{ --accent:#0ea5a4; } /* setup */
+.step[data-active-index="2"]{ --accent:#f97316; } /* GDP */
+.step[data-active-index="3"]{ --accent:#a855f7; } /* region */
+.step[data-active-index="4"]{ --accent:#ef4444; } /* freedom */
+.step[data-active-index="5"]{ --accent:#22c55e; } /* top 15 */
+.step[data-active-index="6"]{ --accent:#06b6d4; } /* map */
+.step[data-active-index="7"]{ --accent:#111827; } /* conclusion */
+
+/* If your scroller adds an active class, this will make it pop */
+.step.is-active,
+.step.active{
+  border-color: rgba(0,0,0,0.14);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+  transition: box-shadow 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+/* =========================
+   Viz area (right side)
+========================= */
+#vis{
   display: inline-block;
   position: fixed;
-  top: 60px;
+  top: 70px;
   z-index: 100;
-  margin-left: 0;
-  /* height: 600px; */
-  /* width: 600px; */
-  /* background-color: #ddd; */
+  margin-left: 18px;
+
+  /* make the viz feel like a “panel” */
+  background: rgba(255,255,255,0.88);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+
+  /* gives the p5 canvas some breathing room */
+  padding: 14px 14px 12px 14px;
 }
 
-/* visibility helpers for popup effect controlled by VisualController */
-.vis-hidden {
+/* keep your popup helpers */
+.vis-hidden{
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
   transition: opacity 260ms ease, transform 260ms ease;
 }
-.vis-visible {
+.vis-visible{
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0px);
   transition: opacity 260ms ease, transform 260ms ease;
 }
 
-#vis .title {
-  font-size:120px;
+#extra-space{
+  height: 320px;
+}
+
+/* =========================
+   Misc (your existing bits)
+========================= */
+#vis .title{
+  font-size: 120px;
   text-anchor: middle;
 }
 
-#vis .sub-title {
-  font-size:80px;
+#vis .sub-title{
+  font-size: 80px;
   text-anchor: middle;
 }
 
 .axis path,
-.axis line {
+.axis line{
   fill: none;
   stroke: #666;
   shape-rendering: crispEdges;
 }
 
-.highlight {
+.highlight{
   fill: #008080;
   font-weight: bold;
 }
 
-.cough-arrow {
+.cough-arrow{
   stroke: #000;
   stroke-width: 4px;
-
 }
 
 

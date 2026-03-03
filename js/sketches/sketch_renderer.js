@@ -40,6 +40,12 @@
     return;
   }
 
+  // 3: Avg Happiness by Region
+  if (ai === 3) {
+    window.VizRegionBar.draw(p, manager, ai, progress);
+    return;
+  }
+
   // 4: Freedom vs Happiness
   if (ai === 4) {
     window.VizFreedom.draw(p, manager, ai, progress);
