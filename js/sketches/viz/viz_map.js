@@ -1,9 +1,9 @@
 (function () {
   window.VizMap = {
     world: null,
-    cachedPaths: [], 
+    cachedPaths: [],
 
-    draw: function (p, manager, ai, progress) {
+    draw: function (p, manager) {
       const data = manager.data || [];
       if (!data.length) return;
 
@@ -11,113 +11,120 @@
       const h = manager.height || 500;
       const offsetX = manager.offsetX || 0;
       const offsetY = manager.offsetY || 40;
+      
+      // reserve space for sidebar
+      const sidebarW = 180;
+      const mapWidth = w - sidebarW;
 
       p.push();
-      p.translate(offsetX, offsetY);
-      p.background(255); 
+      p.background(255);
 
-      // ---- 1. load world map once ----
+      // ---- title ----
+      p.noStroke();
+      p.fill(50);
+      p.textSize(24);
+      p.textStyle(p.BOLD);
+      p.textAlign(p.CENTER);
+      p.text("Global Happiness Distribution", w / 2 + offsetX, 40);
+
+      // ---- load world map once ----
       if (!this.world) {
         d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(topology => {
           const world = topojson.feature(topology, topology.objects.countries);
           this.world = world;
 
           const projection = d3.geoNaturalEarth1()
-            .scale(w / 6.2)
-            .translate([w / 2, h / 2]);
+            .scale(mapWidth / 6.2)
+            .translate([mapWidth / 2, h / 2]);
           const geoPath = d3.geoPath().projection(projection);
 
           this.cachedPaths = world.features.map(f => ({
-            feature: f,
             path2D: new Path2D(geoPath(f)),
-            name: f.properties.name 
+            name: f.properties.name
           }));
         });
         p.pop();
         return;
       }
 
-      // ---- 2. happiness lookup ----
+      p.translate(offsetX, offsetY);
+
+      // ---- data processing ----
       const happinessByCountry = {};
       data.forEach(d => {
         let name = d.country;
         if (name === "United States") name = "United States of America";
-        if (name === "South Korea") name = "Republic of Korea";
+        if (name === "South Korea")   name = "Republic of Korea";
         happinessByCountry[name] = d.happiness;
       });
 
-      const colorLow = p.color('#440154');  
-      const colorMid = p.color('#21908d');  
-      const colorHigh = p.color('#fde725'); 
-      let hoveredCountry = null;
+      // Get Top 10 for sidebar
+      const top10 = [...data]
+        .sort((a, b) => b.happiness - a.happiness)
+        .slice(0, 10);
 
-      // ---- 4. draw countries ----
+      const colorLow  = p.color('#440154');
+      const colorMid  = p.color('#21908d');
+      const colorHigh = p.color('#fde725');
+
+      // ---- draw countries ----
       this.cachedPaths.forEach(item => {
         const score = happinessByCountry[item.name];
-        
-        const isHovered = p.drawingContext.isPointInPath(
-          item.path2D, 
-          p.mouseX - offsetX, 
-          p.mouseY - offsetY
-        );
-
-        // --- NEW: CLICK INTERACTION ---
-        // If the mouse is pressed while hovering over a country, update the Radar chart
-        if (isHovered && p.mouseIsPressed && p.frameCount % 10 === 0) {
-          let radarName = item.name;
-          // Normalizing back to CSV naming if necessary
-          if (radarName === "United States of America") radarName = "United States";
-          if (radarName === "Republic of Korea") radarName = "South Korea";
-          
-          window.VizRadar.selectedCountry = radarName;
-        }
-
         if (score !== undefined) {
-          let amt = p.norm(score, 2, 8); 
-          let col = amt < 0.5 
-            ? p.lerpColor(colorLow, colorMid, amt * 2) 
+          let amt = p.norm(score, 2, 8);
+          let col = amt < 0.5
+            ? p.lerpColor(colorLow, colorMid, amt * 2)
             : p.lerpColor(colorMid, colorHigh, (amt - 0.5) * 2);
           p.fill(col);
         } else {
-          p.fill(240); 
+          p.fill(242);
         }
-
-        p.stroke(isHovered ? 0 : 255);
-        p.strokeWeight(isHovered ? 1.5 : 0.5);
-        
+        p.stroke(255);
+        p.strokeWeight(0.5);
         p.drawingContext.fill(item.path2D);
         p.drawingContext.stroke(item.path2D);
-
-        if (isHovered) hoveredCountry = { name: item.name, val: score };
       });
 
-      if (hoveredCountry) {
-        p.fill(0);
-        p.noStroke();
-        p.textAlign(p.LEFT);
-        p.textSize(14);
-        const txt = `${hoveredCountry.name}: ${hoveredCountry.val ? hoveredCountry.val.toFixed(2) : 'No Data'}`;
-        p.text(txt, p.mouseX - offsetX + 10, p.mouseY - offsetY - 10);
-      }
-
+      // ---- legend & sidebar ----
       this.drawLegend(p, colorLow, colorMid, colorHigh, h);
+      this.drawTop10(p, top10, mapWidth + 20, 80);
+
       p.pop();
     },
 
-    drawLegend: function(p, c1, c2, c3, h) {
-      const lx = 20, ly = h - 30, lw = 200, lh = 10;
+    drawTop10: function(p, list, x, y) {
+      p.textAlign(p.LEFT, p.TOP);
+      p.fill(80);
+      p.textStyle(p.BOLD);
+      p.textSize(14);
+      p.text("TOP 10 COUNTRIES", x, y);
+      
+      p.textStyle(p.NORMAL);
+      p.textSize(12);
+      list.forEach((d, i) => {
+        const rowY = y + 25 + (i * 22);
+        p.fill(120);
+        p.text(`${i + 1}.`, x, rowY);
+        p.fill(50);
+        p.text(d.country, x + 20, rowY);
+        p.textAlign(p.RIGHT);
+        p.fill(33, 144, 141); 
+        p.text(d.happiness.toFixed(2), x + 150, rowY);
+        p.textAlign(p.LEFT);
+      });
+    },
+
+    drawLegend: function (p, c1, c2, c3, h) {
+      const lx = 30, ly = h - 40, lw = 200, lh = 12;
       for (let i = 0; i < lw; i++) {
         let inter = i / lw;
-        let col = inter < 0.5 
-          ? p.lerpColor(c1, c2, inter * 2) 
-          : p.lerpColor(c2, c3, (inter - 0.5) * 2);
+        let col = inter < 0.5 ? p.lerpColor(c1, c2, inter * 2) : p.lerpColor(c2, c3, (inter - 0.5) * 2);
         p.stroke(col);
         p.line(lx + i, ly, lx + i, ly + lh);
       }
-      p.fill(100); p.noStroke(); p.textSize(10); p.textAlign(p.LEFT);
-      p.text("Low Happiness", lx, ly - 5);
-      p.textAlign(p.RIGHT);
-      p.text("High", lx + lw, ly - 5);
+      p.fill(100); p.noStroke(); p.textSize(11);
+      p.textAlign(p.LEFT); p.text("Lower Happiness", lx, ly - 8);
+      p.textAlign(p.RIGHT); p.text("Higher", lx + lw, ly - 8);
     }
   };
 })();
