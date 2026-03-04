@@ -29,9 +29,9 @@
         });
       }
 
-      // radar chart is 8th section (Index 7)
+      // radar chart is 6th section (Index 6)
       if (this.selector) {
-        if (manager.activeIndex === 7) {
+        if (manager.activeIndex === 6) {
             this.selector.show();
         } else {
             this.selector.hide();

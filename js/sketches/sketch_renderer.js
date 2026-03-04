@@ -30,7 +30,7 @@
 
   // 0–1: Intro / Title
   if (ai === 0 || ai === 1) {
-    window.VizTitle.draw(p, manager, ai, progress);
+    window.VizMap.draw(p, manager, ai, progress);
     return;
   }
 
@@ -58,14 +58,14 @@
     return;
   }
 
-  // 6: World Map (when you build it)
-  if (ai === 6) {
+  // 6: World Map 
+  if (ai === 7) {
     window.VizMap.draw(p, manager, ai, progress);
-    return;
+   return;
   }
 
   // 7: Conclusion (optional visual)
-  if (ai === 7) {
+  if (ai === 6) {
     window.VizRadar.draw(p, manager, ai, progress);
     return;
   }
