@@ -66,7 +66,7 @@
 
   // 7: Conclusion (optional visual)
   if (ai === 7) {
-    window.VizBar.draw(p, manager, ai, progress);
+    window.VizRadar.draw(p, manager, ai, progress);
     return;
   }
 }

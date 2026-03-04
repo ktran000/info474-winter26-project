@@ -1,4 +1,3 @@
-// viz_map.js
 (function () {
   window.VizMap = {
     world: null,
@@ -41,40 +40,46 @@
       // ---- 2. happiness lookup ----
       const happinessByCountry = {};
       data.forEach(d => {
-        // normalizing common naming mismatches
         let name = d.country;
         if (name === "United States") name = "United States of America";
         if (name === "South Korea") name = "Republic of Korea";
-        
         happinessByCountry[name] = d.happiness;
       });
 
-      // ---- 3. colors & theme ----
-      const colorLow = p.color('#440154');  // deep purple
-      const colorMid = p.color('#21908d');  // teal
-      const colorHigh = p.color('#fde725'); // happiness yellow
+      const colorLow = p.color('#440154');  
+      const colorMid = p.color('#21908d');  
+      const colorHigh = p.color('#fde725'); 
       let hoveredCountry = null;
 
       // ---- 4. draw countries ----
       this.cachedPaths.forEach(item => {
         const score = happinessByCountry[item.name];
         
-        // check for hover
         const isHovered = p.drawingContext.isPointInPath(
           item.path2D, 
           p.mouseX - offsetX, 
           p.mouseY - offsetY
         );
 
+        // --- NEW: CLICK INTERACTION ---
+        // If the mouse is pressed while hovering over a country, update the Radar chart
+        if (isHovered && p.mouseIsPressed && p.frameCount % 10 === 0) {
+          let radarName = item.name;
+          // Normalizing back to CSV naming if necessary
+          if (radarName === "United States of America") radarName = "United States";
+          if (radarName === "Republic of Korea") radarName = "South Korea";
+          
+          window.VizRadar.selectedCountry = radarName;
+        }
+
         if (score !== undefined) {
-          let amt = p.norm(score, 2, 8); // normalize 2-8 scale to 0-1
+          let amt = p.norm(score, 2, 8); 
           let col = amt < 0.5 
             ? p.lerpColor(colorLow, colorMid, amt * 2) 
             : p.lerpColor(colorMid, colorHigh, (amt - 0.5) * 2);
-          
           p.fill(col);
         } else {
-          p.fill(240); // soft gray for missing data
+          p.fill(240); 
         }
 
         p.stroke(isHovered ? 0 : 255);
@@ -86,7 +91,6 @@
         if (isHovered) hoveredCountry = { name: item.name, val: score };
       });
 
-      // ---- 5. tooltip ----
       if (hoveredCountry) {
         p.fill(0);
         p.noStroke();
@@ -96,9 +100,7 @@
         p.text(txt, p.mouseX - offsetX + 10, p.mouseY - offsetY - 10);
       }
 
-      // ---- 6. better legend ----
       this.drawLegend(p, colorLow, colorMid, colorHigh, h);
-
       p.pop();
     },
 
@@ -112,10 +114,7 @@
         p.stroke(col);
         p.line(lx + i, ly, lx + i, ly + lh);
       }
-      p.fill(100);
-      p.noStroke();
-      p.textSize(10);
-      p.textAlign(p.LEFT);
+      p.fill(100); p.noStroke(); p.textSize(10); p.textAlign(p.LEFT);
       p.text("Low Happiness", lx, ly - 5);
       p.textAlign(p.RIGHT);
       p.text("High", lx + lw, ly - 5);

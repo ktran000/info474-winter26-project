@@ -1,7 +1,6 @@
 (function () {
   window.VizFreedom = {
     // defining region colors based on your CSV regions
-    // madhu - test push  
     regionColors: {
       "Western Europe": "#4e79a7",
       "North America and ANZ": "#f28e2c",
