@@ -2,18 +2,33 @@
 <html>
 
 <head>
-  <title>Scrolling Sections</title>
+  <title>The Geography of Happiness</title>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
+
+  <div class="topbar">
+    <div class="topbar-title">The Geography of Happiness</div>
+    <div class="topbar-nav">
+      <a href="#intro">Intro</a>
+      <a href="#world">Map</a>
+      <a href="#gdp">GDP</a>
+      <a href="#regions">Regions</a>
+      <a href="#freedom">Freedom</a>
+      <a href="#health">Top 15</a>
+      <a href="#comparison">Comparison</a>
+      <a href="#conclusion">Takeaways</a>
+    </div>
+  </div>
+
   <div class="container">
     <div id='graphic'>
       <div id='sections'>
-        <section class="step" data-active-index="0">
-          <div class="title">The Geography of Happiness</div>
-          INFO 474 Project
+        <section class="step" id="intro" data-active-index="0">
+          <div class="hero-title">The Geography of Happiness</div>
+          <div class="hero-subtitle">An interactive exploration of global well-being</div>
           <br></br>
           What makes a country happy? The answer isn't as simple as wealth. 
           Finland has topped the global happiness rankings for seven consecutive 
@@ -27,7 +42,7 @@
           <b>Scroll to explore how these variables relate to happiness.</b>
         </section>
         
-        <section class="step" data-active-index="1">
+        <section class="step" id="world" data-active-index="1">
           <div class="title">A World Divided</div>
         
           Take a look at the map. The pattern is hard to miss: happiness clusters geographically. 
@@ -39,7 +54,7 @@
           country's income and how happy its people actually report feeling.
         </section>
         
-        <section class="step" data-active-index="2">
+        <section class="step" id="gdp" data-active-index="2">
           <div class="title">GDP and Happiness</div>
         
           Wealthier countries do tend to report higher happiness.
@@ -52,7 +67,7 @@
           underachievers?
         </section>
         
-        <section class="step" data-active-index="3">
+        <section class="step" id="regions" data-active-index="3">
           <div class="title">Happiness by Region</div>
           Click a region to highlight it and see how different parts of the world tend to cluster.
 
@@ -66,7 +81,7 @@
           difference that no single factor can explain on its own.
         </section>
         
-        <section class="step" data-active-index="4">
+        <section class="step" id="freedom" data-active-index="4">
           <div class="title">Freedom and Well-Being</div>
           Hover over points to see individual countries.
           <br></br>
@@ -82,7 +97,7 @@
           their lives.
         </section>
         
-        <section class="step" data-active-index="5">
+        <section class="step" id="health" data-active-index="5">
           <div class="title">Health and Happiness</div>
         
           The world's happiest countries share more than good policies, their people live longer too.
@@ -96,7 +111,7 @@
           society chooses to take care of its people.
         </section>
         
-        <section class="step" data-active-index="6">
+        <section class="step" id="comparison" data-active-index="6">
           <div class="title">Build Your Own Comparison</div>
         
           We've explored the global patterns, now go deeper. Select any country from the dropdown to
@@ -106,7 +121,7 @@
           to a country that surprised you earlier. Where does your own country land?
         </section>
         
-        <section class="step" data-active-index="7">
+        <section class="step" id="conclusion" data-active-index="7">
           <div class="title">What We Learned</div>
         
           This data offers a window, not a complete answer. Across the regions,
@@ -165,7 +180,6 @@
   <script src="js/sketches/viz/viz_radar.js"></script>
   <script src="js/sketches/sketch_renderer.js"></script>
   <script src="js/sketches/viz/viz_region_bar.js"></script>
-
 
 </body>
 

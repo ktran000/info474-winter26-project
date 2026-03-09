@@ -1,9 +1,8 @@
-
 /* =========================
    Overall page
 ========================= */
 :root{
-  --bg: #f6f4ef;            /* warm off-white */
+  --bg: #f6f4ef;
   --ink: #262626;
   --muted: #6f6f73;
   --card: #ffffff;
@@ -12,12 +11,80 @@
   --radius: 16px;
 }
 
-body{
-  margin: 0;
-  background: var(--bg);
+/* =========================
+   Hero section (intro slide)
+========================= */
+.hero-title{
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: var(--ink);
 }
 
-/* optional subtle texture (very light) */
+.hero-subtitle{
+  font-size: 18px;
+  line-height: 1.4;
+  opacity: 0.65;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* =========================
+   Top navigation bar
+========================= */
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.topbar-title{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.topbar-nav{
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.topbar-nav a{
+  text-decoration: none;
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 160ms ease;
+}
+
+.topbar-nav a:hover{
+  color: var(--ink);
+}
+
+/* =========================
+   Layout
+========================= */
+body{
+  margin: 0;
+  background: linear-gradient(
+    180deg,
+    #f4faff 0%,
+    #e8f2f8 100%
+  );
+}
+
+/* optional subtle texture */
 body:before{
   content:"";
   position: fixed;
@@ -30,14 +97,13 @@ body:before{
   z-index: 0;
 }
 
-/* =========================
-   Layout
-========================= */
 .container{
-  width: 980px;          /* a little wider than before */
+  width: 980px;
   max-width: 95vw;
+  margin: 0 auto;
+  padding: 0 20px;
   position: relative;
-  z-index: 1;            /* above the background texture */
+  z-index: 1;
 }
 
 #graphic{
@@ -48,7 +114,7 @@ body:before{
 #sections{
   position: relative;
   display: inline-block;
-  width: 290px;          /* a bit wider so text breathes */
+  width: 290px;
   top: 0px;
   z-index: 90;
   padding-bottom: 240px;
@@ -71,9 +137,11 @@ body:before{
 
   padding: 16px 16px 18px 16px;
   position: relative;
+
+  scroll-margin-top: 90px;
 }
 
-/* the colored accent bar on the left */
+/* colored accent bar */
 .step::before{
   content:"";
   position: absolute;
@@ -87,7 +155,7 @@ body:before{
 
 /* titles inside each step */
 #sections .title{
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, "san-serif";
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: 750;
   letter-spacing: 0.2px;
@@ -96,7 +164,7 @@ body:before{
   line-height: 1.25em;
 }
 
-/* a little divider line under each title */
+/* divider line under titles */
 #sections .title::after{
   content:"";
   display:block;
@@ -107,20 +175,17 @@ body:before{
   border-radius: 2px;
 }
 
-/* =========================
-   Color-code each section by index
-   (these match your steps 0–7)
-========================= */
-.step[data-active-index="0"]{ --accent:#1f6feb; } /* intro */
-.step[data-active-index="1"]{ --accent:#0ea5a4; } /* setup */
-.step[data-active-index="2"]{ --accent:#f97316; } /* GDP */
-.step[data-active-index="3"]{ --accent:#a855f7; } /* region */
-.step[data-active-index="4"]{ --accent:#ef4444; } /* freedom */
-.step[data-active-index="5"]{ --accent:#22c55e; } /* top 15 */
-.step[data-active-index="6"]{ --accent:#06b6d4; } /* map */
-.step[data-active-index="7"]{ --accent:#111827; } /* conclusion */
+/* section colors */
+.step[data-active-index="0"]{ --accent:#1f6feb; }
+.step[data-active-index="1"]{ --accent:#0ea5a4; }
+.step[data-active-index="2"]{ --accent:#f97316; }
+.step[data-active-index="3"]{ --accent:#a855f7; }
+.step[data-active-index="4"]{ --accent:#ef4444; }
+.step[data-active-index="5"]{ --accent:#22c55e; }
+.step[data-active-index="6"]{ --accent:#06b6d4; }
+.step[data-active-index="7"]{ --accent:#111827; }
 
-/* If your scroller adds an active class, this will make it pop */
+/* active step */
 .step.is-active,
 .step.active{
   border-color: rgba(0,0,0,0.14);
@@ -139,24 +204,23 @@ body:before{
   z-index: 100;
   margin-left: 18px;
 
-  /* make the viz feel like a “panel” */
-  background: rgba(255,255,255,0.88);
+  background: white;
   border: 1px solid var(--line);
   border-radius: calc(var(--radius) + 4px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
   backdrop-filter: blur(6px);
 
-  /* gives the p5 canvas some breathing room */
   padding: 14px 14px 12px 14px;
 }
 
-/* keep your popup helpers */
+/* popup helpers */
 .vis-hidden{
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
   transition: opacity 260ms ease, transform 260ms ease;
 }
+
 .vis-visible{
   opacity: 1;
   pointer-events: auto;
@@ -169,7 +233,7 @@ body:before{
 }
 
 /* =========================
-   Misc (your existing bits)
+   Misc
 ========================= */
 #vis .title{
   font-size: 120px;
@@ -198,18 +262,35 @@ body:before{
   stroke-width: 4px;
 }
 
-/* Add/Update this to ensure the dropdown is never hidden or misplaced */
-#vis select {
-  display: block !important; /* Force display when show() is called */
+/* dropdown styling */
+#vis select{
+  display: block !important;
   position: absolute !important;
   top: 20px !important;
   left: 20px !important;
-  z-index: 9999 !important; /* Extremely high to beat any other viz elements */
-  width: 160px; /* Set a fixed width so it's consistent */
+  z-index: 9999 !important;
+  width: 160px;
   background: white !important;
   border: 1px solid rgba(0,0,0,0.1);
   padding: 5px;
   border-radius: 4px;
+}
+
+/* =========================
+   Responsive fallback
+========================= */
+@media (max-width: 1100px){
+  .topbar{
+    padding: 12px 18px;
+  }
+
+  .topbar-nav{
+    gap: 12px;
+  }
+
+  #sections{
+    width: 260px;
+  }
 }
 
 
